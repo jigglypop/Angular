@@ -73,8 +73,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!valid)
             throw new Error('비밀번호가 잘못되었습니다');
         // 토큰 발급
-        res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
-        res.status(200).json(serialize(user));
+        yield res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+        yield res.status(200).json(serialize(user));
     }
     catch (e) {
         res.status(500).json({ error: e.toString() });
@@ -82,15 +82,16 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
 });
 exports.login = login;
 const check = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
+    const decoded = req.decoded;
+    if (!decoded) {
+        res.status(401).json({ error: new Error('허가되지 않은 사용자입니다.').toString() });
     }
-    catch (e) {
-    }
+    res.status(200).json(decoded);
 });
 exports.check = check;
 // 로그아웃
 const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    res.cookie('access_token', '');
-    res.status(200).json({ message: '로그아웃 되었습니다.' });
+    yield res.clearCookie('access_token');
+    yield res.status(200).json({ message: '로그아웃 되었습니다.' });
 });
 exports.logout = logout;

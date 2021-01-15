@@ -64,6 +64,7 @@ export const login = async ( req : Request, res : Response, next : NextFunction 
         res.status(500).json({ error: e.toString() })
     }
 }
+// 체크
 export const check = async ( req : RequestDecoded, res : Response, next : NextFunction ) =>{
     const decoded = req.decoded
     if (!decoded){
