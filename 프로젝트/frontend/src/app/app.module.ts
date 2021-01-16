@@ -9,6 +9,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { ErrorModule } from './shared/module/error/error.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,7 @@ import { environment } from 'src/environments/environment';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AuthModule,
     ReactiveFormsModule,
@@ -25,6 +29,8 @@ import { environment } from 'src/environments/environment';
       maxAge: 25,
       logOnly: environment.production
     }),
+    EffectsModule.forRoot([]),
+    ErrorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

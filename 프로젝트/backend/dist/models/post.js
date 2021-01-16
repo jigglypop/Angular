@@ -24,7 +24,7 @@ const PostSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     tags: { type: [String], required: false },
-    publishedDate: {
+    createdAt: {
         type: Date,
         default: Date.now
     },

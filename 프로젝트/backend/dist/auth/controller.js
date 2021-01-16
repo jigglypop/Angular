@@ -30,26 +30,45 @@ const generateToken = (user) => {
 // 회원가입
 const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, password } = req.body;
-        // 에러처리 (형식)
+        const { username, password, email } = req.body.user;
+        // 에러처리 (빈칸과 형식)
         if (!username ||
             username.length <= 3 ||
             username.length >= 10 ||
-            !password) {
-            throw new Error("형식이 올바르지 않습니다.");
+            !password ||
+            !email) {
+            let table = { username: username, password: password, email: email };
+            let blanks = [];
+            for (let blank of ['username', 'password', 'email']) {
+                if (!table[blank])
+                    blanks.push(blank);
+            }
+            throw new Error(`${blanks.join(', ')}을 올바르게 입력해 주세요`);
         }
         ;
+        // 에러처리 (이메일 형식)
+        const emailValidation = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email);
+        if (!emailValidation) {
+            throw new Error(`이메일의 형식이 올바르게 입력되지 않았습니다. ex) honggildong@naver.com `);
+        }
         // 에러처리 (이미 존재하는 계정)
-        const exists = yield User_1.default.findOne({ username });
-        if (exists)
+        const nameExists = yield User_1.default.findOne({ username });
+        if (nameExists)
             throw new Error("이미 존재하는 계정입니다. ");
+        // 에러처리 (이미 존재하는 계정)
+        const emailExists = yield User_1.default.findOne({ email });
+        if (emailExists)
+            throw new Error("이미 존재하는 이메일입니다. ");
         // 해싱과 응답
-        const user = new User_1.default({ username });
+        const user = new User_1.default({
+            username,
+            email
+        });
         user.hashedPassword = yield bcrypt_1.default.hash(password, 10);
         yield user.save();
         // 토큰 발급
         res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
-        res.status(200).json(serialize(user));
+        res.status(200).json({ user: serialize(user) });
     }
     catch (e) {
         res.status(500).json({ error: e.toString() });
@@ -58,7 +77,7 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
 exports.register = register;
 // 로그인
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
+    const { username, password } = req.body.user;
     // 에러처리 (형식)
     if (!username ||
         !password)
@@ -74,13 +93,14 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             throw new Error('비밀번호가 잘못되었습니다');
         // 토큰 발급
         yield res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
-        yield res.status(200).json(serialize(user));
+        yield res.status(200).json({ user: serialize(user) });
     }
     catch (e) {
         res.status(500).json({ error: e.toString() });
     }
 });
 exports.login = login;
+// 체크
 const check = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const decoded = req.decoded;
     if (!decoded) {

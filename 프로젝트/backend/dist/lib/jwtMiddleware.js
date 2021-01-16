@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// 쿠키 로그인 상황 체크
 const jwtMiddleware = (req, res, next) => {
     try {
         const { access_token } = req.cookies;

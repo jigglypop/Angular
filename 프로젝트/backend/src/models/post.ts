@@ -4,7 +4,7 @@ export interface IPost extends Document{
     title: string;
     content: string;
     tags: string[];
-    publishedDate: Date;
+    createdAt: Date;
     user : {
         _id : string;
         username : string;
@@ -16,7 +16,7 @@ const PostSchema : Schema<IPost> = new Schema({
     title: {type: String , required: true},
     content: {type: String , required: true},
     tags: {type: [String] , required: false},
-    publishedDate: {
+    createdAt: {
         type: Date,
         default : Date.now
     },

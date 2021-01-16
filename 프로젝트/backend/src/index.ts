@@ -1,6 +1,8 @@
 import bodyParser from "body-parser";
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import express, { Request, Response, NextFunction } from "express";
+
 import postRouter from "./post/router";
 import authRouter from "./auth/router";
 
@@ -11,6 +13,12 @@ import jwtMiddleware from "./lib/jwtMiddleware";
 config()
 const { PORT, MONGO_URL } = process.env
 const app: express.Application = express();
+// CORS
+const corsOptions = {
+  origin: "http://localhost:4200",
+  credentials: true
+}
+app.use(cors(corsOptions))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true

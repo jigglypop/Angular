@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://conduit.productionready.io/api'
+  url: 'http://localhost:4000/api'
 }

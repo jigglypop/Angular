@@ -7,6 +7,7 @@ export interface RequestDecoded extends Request{
     post : IPost 
 }
 
+// 쿠키 로그인 상황 체크
 const jwtMiddleware =  ( req :RequestDecoded,  res : Response, next : NextFunction ) => {
     try {
         const { access_token } = req.cookies
