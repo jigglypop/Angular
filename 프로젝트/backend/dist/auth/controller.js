@@ -67,8 +67,10 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         user.hashedPassword = yield bcrypt_1.default.hash(password, 10);
         yield user.save();
         // 토큰 발급
+        const serialized = yield serialize(user);
+        serialized['token'] = yield generateToken(user);
         res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
-        res.status(200).json({ user: serialize(user) });
+        res.status(200).json({ user: serialized });
     }
     catch (e) {
         res.status(500).json({ error: e.toString() });
@@ -92,8 +94,10 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!valid)
             throw new Error('비밀번호가 잘못되었습니다');
         // 토큰 발급
+        const serialized = yield serialize(user);
+        serialized['token'] = yield generateToken(user);
         yield res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
-        yield res.status(200).json({ user: serialize(user) });
+        yield res.status(200).json({ user: serialized });
     }
     catch (e) {
         res.status(500).json({ error: e.toString() });

@@ -1,0 +1,20 @@
+<div class="header">
+  <div>
+    <div *ngIf="isLoggedIn == false">
+      <div class="headerdiv">
+        <a routerLink="/register">회원가입</a>
+      </div>
+      <div class="headerdiv">
+        <a routerLink="/login">로그인</a>
+      </div>
+    </div>
+    <div *ngIf="currentUser$ | async">
+      <div class="headerdiv">
+        {{ user.username }}
+      </div>
+      <button (click)="onLogout()">
+        로그아웃
+      </button>
+    </div>
+  </div>
+</div>

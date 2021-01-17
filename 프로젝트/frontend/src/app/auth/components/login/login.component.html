@@ -1,27 +1,23 @@
 <div class="auth-page">
   <div class="container page">
-    <div>회원가입</div>
-    <a [routerLink]="['/login']">이미 계정이 있으신가요?</a>
+    <div>로그인</div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <input
         type='text'
         placeholder="유저 이름"
         formControlName="username">
       <input
-        type='text'
-        placeholder="이메일"
-        formControlName="email">
-      <input
         type='password'
         placeholder="비밀번호"
         formControlName="password">
       <button
         type="submit"
-        [disabled]="isSubmitting$ | async">회원가입</button>
+        [disabled]="isSubmitting$ | async">로그인</button>
+      <a [routerLink]="['/register']">처음 방문하셨나요?</a>
     </form>
   </div>
   <app-error
-  *ngIf="validationErrors$ | async"
-  [errors]="validationErrors$ | async">
+    *ngIf="validationErrors$ | async"
+    [errors]="validationErrors$ | async">
   </app-error>
 </div>

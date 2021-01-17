@@ -12,11 +12,20 @@ export class TokenService {
     }
   }
 
-  get(data: string): void {
+  get(): string | null {
     try {
-      localStorage.setItem('token', JSON.stringify(data))
+      return JSON.parse(localStorage.getItem('token'))
     } catch (e) {
       console.error('Error saving to localStorage', e)
+      return null
+    }
+  }
+  clear(): void {
+    try {
+      return localStorage.clear()
+    } catch (e) {
+      console.error('Error saving to localStorage', e)
+      return null
     }
   }
 }

@@ -10,8 +10,8 @@ export interface RequestDecoded extends Request{
 // 쿠키 로그인 상황 체크
 const jwtMiddleware =  ( req :RequestDecoded,  res : Response, next : NextFunction ) => {
     try {
-        const { access_token } = req.cookies
-        const decoded = jwt.verify(access_token, process.env.JWT_SECRET)
+        const { authorization } = req.headers
+        const decoded = jwt.verify(authorization, process.env.JWT_SECRET)
         req.decoded = decoded
         next()
     } catch (e){

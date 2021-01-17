@@ -9,14 +9,18 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { ErrorModule } from './shared/module/error/error.module';
+import { HeaderModule } from './shared/module/header/header.module';
+import { LoginComponent } from './auth/components/login/login.component';
+import { AuthInterceptor } from './shared/service/authinspector.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -30,9 +34,18 @@ import { ErrorModule } from './shared/module/error/error.module';
       logOnly: environment.production
     }),
     EffectsModule.forRoot([]),
-    ErrorModule
+    ErrorModule,
+    HeaderModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule { }
