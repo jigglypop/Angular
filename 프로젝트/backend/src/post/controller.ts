@@ -32,8 +32,11 @@ export const list = async ( req : Request, res : Response, next : NextFunction )
                 content: post.content.length < 200 ? post.content : `${post.content.slice(0, 100)}...`
             }))
         const postCount = await Post.countDocuments().exec()
-        res.set('last', Math.ceil(postCount / Max).toString())
-        res.status(200).json(postSlice)
+        const last = await Math.ceil(postCount / Max).toString()
+        res.status(200).json({ 
+            posts : postSlice,
+            last : last
+        })
     } catch(e){
         res.status(500).json({ message: e })
     }
@@ -62,7 +65,9 @@ export const write = async ( req : RequestDecoded, res : Response, next : NextFu
 export const read = async ( req : RequestDecoded, res : Response, next : NextFunction ) => {
     try {
         const post = await req.post
-        res.status(200).json(post)
+        res.status(200).json({
+            post: post
+        })
     } catch(e){
         res.status(404).send({ error: e.toString() })
     }
@@ -85,7 +90,9 @@ export const update = async ( req : Request, res : Response, next : NextFunction
     const { id } = req.params
     try{
         const post = await Post.findByIdAndUpdate(id, req.body, { new : true })
-        res.status(200).json(post)
+        res.status(200).json({
+            post: post
+        })
     }catch(e){
         res.status(500).send({ error: e.toString() })
     }

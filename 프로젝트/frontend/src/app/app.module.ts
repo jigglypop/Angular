@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './auth/components/register/register.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from './auth/auth-module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -15,18 +14,27 @@ import { ErrorModule } from './shared/module/error/error.module';
 import { HeaderModule } from './shared/module/header/header.module';
 import { LoginComponent } from './auth/components/login/login.component';
 import { AuthInterceptor } from './shared/service/authinspector.service';
+import { ListComponent } from './list/components/list/list.component';
+
+import { AuthModule } from './auth/auth-module';
+import { ListModule } from './list/list-module';
+import { PostModule } from './post/post-module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     AuthModule,
+    ListModule,
+    PostModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({

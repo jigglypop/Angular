@@ -31,6 +31,7 @@ const generateToken = (user) => {
 const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, password, email } = req.body.user;
+        console.log(username, password);
         // 에러처리 (빈칸과 형식)
         if (!username ||
             username.length <= 3 ||
@@ -69,7 +70,7 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         // 토큰 발급
         const serialized = yield serialize(user);
         serialized['token'] = yield generateToken(user);
-        res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+        // res.cookie('access_token', generateToken(user),{ maxAge: 1000 * 60 * 60 * 24* 7, httpOnly: true})
         res.status(200).json({ user: serialized });
     }
     catch (e) {
@@ -96,7 +97,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         // 토큰 발급
         const serialized = yield serialize(user);
         serialized['token'] = yield generateToken(user);
-        yield res.cookie('access_token', generateToken(user), { maxAge: 1000 * 60 * 60 * 24 * 7, httpOnly: true });
+        // await res.cookie('access_token', generateToken(user),{ maxAge: 1000 * 60 * 60 * 24* 7, httpOnly: true})
         yield res.status(200).json({ user: serialized });
     }
     catch (e) {
@@ -110,12 +111,12 @@ const check = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     if (!decoded) {
         res.status(401).json({ error: new Error('허가되지 않은 사용자입니다.').toString() });
     }
-    res.status(200).json(decoded);
+    res.status(200).json({ user: decoded });
 });
 exports.check = check;
 // 로그아웃
 const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    yield res.clearCookie('access_token');
+    // await res.clearCookie('access_token')
     yield res.status(200).json({ message: '로그아웃 되었습니다.' });
 });
 exports.logout = logout;

@@ -1,0 +1,10 @@
+<div>
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.content }}</p>
+  <hr/>
+  <P>{{ post.user.username }} / {{ post.publishedDate }}</P>
+  <hr/>
+  <div *ngFor="let tag of post.tags">
+    <p>{{ tag }}</p>
+  </div>
+</div>
