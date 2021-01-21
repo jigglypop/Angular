@@ -1,5 +1,5 @@
 export interface IError {
   error : {
-    error : string | null
+    error : string
   }
 }

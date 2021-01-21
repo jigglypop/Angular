@@ -1,0 +1,16 @@
+<div class="auth-page">
+  <div class="container page">
+    <div>업데이트</div>
+  </div>
+  <div *ngIf="post">
+    <textarea type="text" name='title' (change)="onChangeTitle($event.target.value)">{{post.title}}</textarea>
+    <textarea type="text" name='content' (change)="onChangeContent($event.target.value)">{{post.content}}</textarea>
+  </div>
+
+
+  <button (click)="onSubmit()">제출</button>
+  <app-error
+    *ngIf="validationErrors$ | async"
+    [errors]="validationErrors$ | async">
+  </app-error>
+</div>

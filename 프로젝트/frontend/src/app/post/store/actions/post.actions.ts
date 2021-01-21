@@ -15,5 +15,5 @@ export const postSuccessAction = createAction(
 export const postFailureAction = createAction(
   ActionTypes.POST_FAILURE,
   props<{ errors: IError }>()
-
 )
+

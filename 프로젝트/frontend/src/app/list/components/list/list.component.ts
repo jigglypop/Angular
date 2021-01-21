@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { createSelector, select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { listAction } from '../../store/actions/list.actions';
 import { listFeatureSelector } from '../../store/selector/selector';
 import { IListState } from '../../types/list.interface';

@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
+import { IComment } from '../models/comment'
 import { IPost } from '../models/post'
 
 export interface RequestDecoded extends Request{
     decoded : string | object;
     post : IPost 
+    comment : IComment
 }
 
 // 쿠키 로그인 상황 체크

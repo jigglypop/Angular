@@ -55,7 +55,9 @@ export const write = async ( req : RequestDecoded, res : Response, next : NextFu
         // 내용이 모두 있는지
         if (!title || !content ) throw new Error('제목과 내용을 모두 입력해 주세요')
         const result = await post.save()
-        await res.status(200).json(result)
+        await res.status(200).json({
+            post: result
+        })
     } catch(e){
         res.status(500).json({ error: e.toString() })
     }
@@ -97,3 +99,4 @@ export const update = async ( req : Request, res : Response, next : NextFunction
         res.status(500).send({ error: e.toString() })
     }
 }
+

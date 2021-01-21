@@ -5,6 +5,7 @@ import express, { Request, Response, NextFunction } from "express";
 
 import postRouter from "./post/router";
 import authRouter from "./auth/router";
+import commentRouter from "./comment/router";
 
 import { config } from 'dotenv'
 import mongoose from 'mongoose'
@@ -33,6 +34,7 @@ app.get('/', ( req : Request, res : Response, next : NextFunction )=>{
 })
 app.use('/api/posts', postRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/comment', commentRouter)
 
 
 // 연결부

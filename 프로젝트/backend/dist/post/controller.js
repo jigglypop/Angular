@@ -38,8 +38,11 @@ const list = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
             .map(post => post.toJSON())
             .map((post) => (Object.assign(Object.assign({}, post), { content: post.content.length < 200 ? post.content : `${post.content.slice(0, 100)}...` })));
         const postCount = yield post_1.default.countDocuments().exec();
-        res.set('last', Math.ceil(postCount / Max).toString());
-        res.status(200).json(postSlice);
+        const last = yield Math.ceil(postCount / Max).toString();
+        res.status(200).json({
+            posts: postSlice,
+            last: last
+        });
     }
     catch (e) {
         res.status(500).json({ message: e });
@@ -60,7 +63,9 @@ const write = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         if (!title || !content)
             throw new Error('제목과 내용을 모두 입력해 주세요');
         const result = yield post.save();
-        yield res.status(200).json(result);
+        yield res.status(200).json({
+            post: result
+        });
     }
     catch (e) {
         res.status(500).json({ error: e.toString() });
@@ -71,7 +76,9 @@ exports.write = write;
 const read = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const post = yield req.post;
-        res.status(200).json(post);
+        res.status(200).json({
+            post: post
+        });
     }
     catch (e) {
         res.status(404).send({ error: e.toString() });
@@ -95,7 +102,9 @@ const update = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
     const { id } = req.params;
     try {
         const post = yield post_1.default.findByIdAndUpdate(id, req.body, { new: true });
-        res.status(200).json(post);
+        res.status(200).json({
+            post: post
+        });
     }
     catch (e) {
         res.status(500).send({ error: e.toString() });

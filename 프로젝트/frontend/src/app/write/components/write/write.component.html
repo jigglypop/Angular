@@ -1,0 +1,13 @@
+<div class="auth-page">
+  <div class="container page">
+    <div>글쓰기</div>
+  </div>
+  <input type="text" name='title' (change)="onChangeTitle($event.target.value)">
+  <textarea type="text" name='content' (change)="onChangeContent($event.target.value)"></textarea>
+
+  <button (click)="onSubmit()">제출</button>
+  <app-error
+    *ngIf="validationErrors$ | async"
+    [errors]="validationErrors$ | async">
+  </app-error>
+</div>

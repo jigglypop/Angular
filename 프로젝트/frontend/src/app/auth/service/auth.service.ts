@@ -5,7 +5,6 @@ import { IResponse } from '../types/response.interface';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
-import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthService {

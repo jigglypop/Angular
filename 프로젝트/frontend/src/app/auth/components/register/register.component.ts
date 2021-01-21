@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { createFeatureSelector, createSelector, select, Store } from '@ngrx/store'
+import { createSelector, select, Store } from '@ngrx/store'
 import { Observable } from 'rxjs';
-import { IAppState } from 'src/app/shared/types/appState.interface';
 import { IError } from 'src/app/shared/types/error.interface';
 import { registerAction } from '../../store/actions/register.action';
 import { authFeatureSelector } from '../../store/selector/selector';

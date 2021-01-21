@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http'
-import { IResponse } from '../types/response.interface';
+import { IListResponse } from '../types/listresponse.interface';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { environment } from 'src/environments/environment';
@@ -13,9 +13,9 @@ export class ListService {
   list() : Observable<IPosts> {
     const url = environment.url + '/posts'
     return this.http
-      .get<IResponse>(url)
+      .get<IListResponse>(url)
       .pipe(
-        map((res : IResponse) => res )
+        map((res : IListResponse) => res )
       )
   }
 }
