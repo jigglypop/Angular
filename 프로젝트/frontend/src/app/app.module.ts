@@ -22,6 +22,8 @@ import { PostModule } from './post/post-module';
 import { WriteModule } from './write/write-module';
 import { UpdateModule } from './update/update-module';
 import { PostComponent } from './post/components/post/post.component';
+import { CommentModule } from './comment/comment-module';
+import { ComemntComponent } from './comment/components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { PostComponent } from './post/components/post/post.component';
     RegisterComponent,
     LoginComponent,
     ListComponent,
-    PostComponent
+    PostComponent,
+    ComemntComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ import { PostComponent } from './post/components/post/post.component';
     PostModule,
     WriteModule,
     UpdateModule,
+    CommentModule,
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({}),

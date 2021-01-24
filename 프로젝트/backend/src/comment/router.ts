@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.get("/:id", getPostById, checkLoggedIn,  readComment);
 router.post("/:id", getPostById, checkLoggedIn,  writeComment);
-router.delete("/:postId/:id", getCommentById, checkLoggedIn, checkOwnComment, removeComment);
+router.delete("/:postId/:commentId", getCommentById, checkLoggedIn, checkOwnComment, removeComment);
 
 export = router;

@@ -1,0 +1,27 @@
+<div *ngIf="comments" class="comments">
+  <hr/>
+  <input type="text" name='title' (change)="onChangeContent($event.target.value)">
+  <button (click)="onWriteComment()">댓글</button>
+  <div *ngFor="let comment of comments">
+    <p>({{ comment._id }}) {{ comment.content }} {{ comment.user.username }}</p>
+    <div *ngIf="comment.user.username === currentUser.username">
+      <button (click)="onDeleteComment(comment._id)">X</button>
+    </div>
+    <button (click)="onOpenRecomment(comment._id)">대댓글 입력</button>
+    <div  class="recomments">
+      <div *ngIf="commentId === comment._id">
+        <input type="text" name='title' (change)="onChangeReContent($event.target.value)">
+        <button (click)="onWriteReComment(comment._id)">대댓글</button>
+      </div>
+      <div *ngIf="comment.recomment">
+        <div *ngFor="let recomment of comment.recomment">
+          <p>({{ recomment._id }}) {{ recomment.content }} {{ recomment.user.username }}</p>
+          <div *ngIf="recomment.user.username === currentUser.username">
+            <button (click)="onDeleteReComment(comment._id, recomment._id)">X</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,4 +1,3 @@
-import { string } from 'joi';
 import mongoose, { Document, model, Schema } from 'mongoose'
 import { IComment } from './comment';
 
@@ -11,6 +10,7 @@ export interface IPost extends Document{
         _id : string;
         username : string;
     }
+    userlike : string[]
     comment : IComment[]
 }
 
@@ -23,6 +23,7 @@ const PostSchema : Schema<IPost> = new Schema({
         type: Date,
         default : Date.now
     },
+    userlike : { type: [String] , required: false },
     user: {
         _id: mongoose.Types.ObjectId,
         username: String,
@@ -38,7 +39,21 @@ const PostSchema : Schema<IPost> = new Schema({
                 createdAt: {
                     type: Date,
                     default : Date.now
-                }
+                },
+                recomment: [
+                            {
+                                _id: mongoose.Types.ObjectId,
+                                user: {
+                                    _id: mongoose.Types.ObjectId,
+                                    username: String,
+                                },
+                                content:String,
+                                createdAt: {
+                                    type: Date,
+                                    default : Date.now
+                                }
+                        }
+                ]
         }
     ]
 })

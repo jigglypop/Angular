@@ -9,6 +9,8 @@ const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const router_1 = __importDefault(require("./post/router"));
 const router_2 = __importDefault(require("./auth/router"));
+const router_3 = __importDefault(require("./comment/router"));
+const router_4 = __importDefault(require("./recomment/router"));
 const dotenv_1 = require("dotenv");
 const mongoose_1 = __importDefault(require("mongoose"));
 const jwtMiddleware_1 = __importDefault(require("./lib/jwtMiddleware"));
@@ -34,6 +36,8 @@ app.get('/', (req, res, next) => {
 });
 app.use('/api/posts', router_1.default);
 app.use('/api/auth', router_2.default);
+app.use('/api/comment', router_3.default);
+app.use('/api/recomment', router_4.default);
 // 연결부
 mongoose_1.default
     .connect(MONGO_URL, {

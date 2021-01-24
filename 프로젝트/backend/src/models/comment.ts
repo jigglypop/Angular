@@ -1,4 +1,5 @@
 import mongoose,{ Document, model, Schema } from 'mongoose'
+import { IRecomment } from './recomment';
 
 export interface IComment extends Document{
     user : {
@@ -7,6 +8,7 @@ export interface IComment extends Document{
     }
     content : string;
     createdAt: Date;
+    recomment : IRecomment[]
 }
 
 const CommentSchema : Schema<IComment> = new Schema({
@@ -18,7 +20,21 @@ const CommentSchema : Schema<IComment> = new Schema({
     createdAt: {
         type: Date,
         default : Date.now
-    }
+    },
+    recomment: [
+        {
+            _id: mongoose.Types.ObjectId,
+            user: {
+                _id: mongoose.Types.ObjectId,
+                username: String,
+            },
+            content:String,
+            createdAt: {
+                type: Date,
+                default : Date.now
+            }
+        }
+    ]
 })
 
 export default model<IComment>('Comment', CommentSchema);

@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import User, { IUser } from '../models/User'
+import Profile, { IProfile } from '../models/profile'
+
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { RequestDecoded } from "../lib/jwtMiddleware";
@@ -12,8 +14,9 @@ const serialize = ( user : IUser )  =>{
 }
 // 토큰 발급
 const generateToken = (  user : IUser ) => {
+    console.log(user)
     const token = jwt.sign(
-        { _id: user.id, username : user.username },
+        { _id: user.id, username : user.username, profileId: user.profile._id },
         process.env.JWT_SECRET,
         { expiresIn: '7d' }
     )
@@ -23,8 +26,6 @@ const generateToken = (  user : IUser ) => {
 export const register = async ( req : Request, res : Response, next : NextFunction ) =>{
     try {
         const { username, password, email } = req.body.user
-        console.log(username, password)
-
         // 에러처리 (빈칸과 형식)
         if (!username || 
             username.length <= 3 || 
@@ -50,17 +51,25 @@ export const register = async ( req : Request, res : Response, next : NextFuncti
         const emailExists = await User.findOne({ email })
         if (emailExists) throw new Error("이미 존재하는 이메일입니다. ");
         // 해싱과 응답
+        const profile = new Profile({
+            username,
+            email,
+            postlike : [],
+            follower : [],
+            following : []
+        })
         const user = new User({
             username,
-            email
+            email,
+            profile,
         })
         user.hashedPassword = await bcrypt.hash(password, 10)
         await user.save()
+        await profile.save()
         // 토큰 발급
         const serialized = await serialize(user)
         serialized['token'] = await generateToken(user)
-        // res.cookie('access_token', generateToken(user),{ maxAge: 1000 * 60 * 60 * 24* 7, httpOnly: true})
-        res.status(200).json({user: serialized })
+        res.status(200).json({ user: serialized })
     } catch(e) {
         res.status(500).json({ error: e.toString() })
     }
@@ -100,4 +109,3 @@ export const logout = async ( req : Request, res : Response, next : NextFunction
     // await res.clearCookie('access_token')
     await res.status(200).json({message: '로그아웃 되었습니다.'})
 }
-

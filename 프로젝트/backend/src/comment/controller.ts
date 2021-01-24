@@ -20,7 +20,7 @@ export const readComment = async ( req : RequestDecoded, res : Response, next : 
 export const writeComment = async ( req : RequestDecoded, res : Response, next : NextFunction ) =>{
     const { id } = req.params
     try{
-        const { content }  = req.body.comment
+        const { content }  = req.body.comments
         if (!content ) throw new Error('댓글 내용을 입력해 주세요')
         const comment = new Comment({
             content: content,
@@ -33,7 +33,7 @@ export const writeComment = async ( req : RequestDecoded, res : Response, next :
         res.status(200).json({
             comments: post.comment
         })
-    }catch(e){
+    } catch(e){
         res.status(500).send({ error: e.toString() })
     }
 }   
@@ -41,7 +41,7 @@ export const writeComment = async ( req : RequestDecoded, res : Response, next :
 
 // 삭제
 export const removeComment = async ( req : RequestDecoded, res : Response, next : NextFunction ) => {
-    try{
+    try {
         const post = await req.post
         const comment = await req.comment
         const n = await post.comment.length
@@ -50,8 +50,10 @@ export const removeComment = async ( req : RequestDecoded, res : Response, next 
         if (n === post.comment.length) throw new Error('동일한 이름의 댓글이 없습니다')
         await post.save()
         await Comment.findByIdAndRemove(_id).exec()
-        res.status(200).json({ message: '댓글이 삭제되었습니다.' })
-    }catch(e){
+        res.status(200).json({
+            comments: post.comment
+        })    
+    } catch(e){
         res.status(404).send({ error: e.toString() })
     }
 

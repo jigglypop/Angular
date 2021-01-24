@@ -31,7 +31,6 @@ const generateToken = (user) => {
 const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { username, password, email } = req.body.user;
-        console.log(username, password);
         // 에러처리 (빈칸과 형식)
         if (!username ||
             username.length <= 3 ||
